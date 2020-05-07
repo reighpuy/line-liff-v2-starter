@@ -10,16 +10,14 @@
     <body>
         <div id="liffAppContent">
             <!-- ACTION BUTTONS -->
-            <div class="buttonGroup">
-                    <button type="button" class="btn btn-outline-info"id="getProfileButton">Profil Saya</button>
-                    <button type="button" class="btn btn-outline-primary" id="openWindowButton">@Muh.khadaffy</button>
-                    <br><button type="button" class="btn btn-outline-secondary" id="closeWindowButton">Tutup Liff</button>
-                    <br><button type="button" class="btn btn-outline-success" id="scanQrCodeButton">Buka QR Code Reader</button>
-                    <br><button type="button" class="btn btn-outline-danger" id="sendMessageButton">Kirim Pesan</button>
-                    <br><button type="button" class="btn btn-outline-warning" id="getAccessToken">Dapatkan Access Token</button>
-                    <br><button type="button" class="btn btn-outline-light" id="shareTargetPicker">Buka Share Target Picker</button>
-                    <div id="shareTargetPickerMessage"></div>
-            </div>
+                <button type="button" class="btn btn-outline-info btn-lg" id="getProfileButton">Profil Saya</button>
+                <button type="button" class="btn btn-outline-primary btn-lg" id="openWindowButton">@Muh.khadaffy</button>
+                <br><button type="button" class="btn btn-outline-secondary btn-lg" id="closeWindowButton">Tutup Liff</button>
+                <br><button type="button" class="btn btn-outline-success btn-lg" id="scanQrCodeButton">Buka QR Code Reader</button>
+                <br><button type="button" class="btn btn-outline-danger btn-lg" id="sendMessageButton">Kirim Pesan</button>
+                <br><button type="button" class="btn btn-outline-warning btn-lg" id="getAccessToken">Dapatkan Access Token</button>
+                <br><button type="button" class="btn btn-outline-dark btn-lg" id="shareTargetPicker">Buka Share Target Picker</button>
+                <div id="shareTargetPickerMessage"></div>
             <hr color=red>
             <!-- ACCESS TOKEN DATA -->
             <div id="accessTokenData" class="hidden textLeft">
@@ -49,49 +47,62 @@
                 <a href="#" onclick="toggleProfileData()">Tutup Profile</a>
                 <div id="profilePictureDiv">
                 </div>
-                <table>
-                    <tr>
-                        <th>userId</th>
+                <br><table class="table">
+                    <!--caption>List of users</!--caption-->
+                    <thead>
+                      <tr>
+                        <th scope="col">UserID</th>
+                        <th scope="col">Nama</th>
+                        <th scope="col">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
                         <td id="userIdProfileField"></td>
-                    </tr>
-                    <tr>
-                        <th>displayName</th>
+                      </tr>
+                      <tr>
                         <td id="displayNameField"></td>
-                    </tr>
-                    <tr>
-                        <th>statusMessage</th>
+                      </tr>
+                      <tr>
                         <td id="statusMessageField"></td>
-                    </tr>
+                      </tr>
+                    </tbody>
                 </table>
             </div>
             <!-- LIFF DATA -->
-            <div id="liffData">
+            <br><div id="liffData">
                 <h2 id="liffDataHeader" class="textLeft">LIFF Data</h2>
-                <table>
-                    <tr>
-                        <th>OS</th>
+                <br><table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">OS</th>
+                        <th scope="col">Language</th>
+                        <th scope="col">LIFF SDK Version</th>
+                        <th scope="col">LINE Version</th>
+                        <th scope="col">isInClient</th>
+                        <th scope="col">isLoggedIn</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
                         <td id="deviceOS" class="textLeft"></td>
-                    </tr>
-                    <tr>
-                        <th>Language</th>
+                      </tr>
+                      <tr>
                         <td id="browserLanguage" class="textLeft"></td>
-                    </tr>
-                    <tr>
-                        <th>LIFF SDK Version</th>
+                      </tr>
+                      <tr>
                         <td id="sdkVersion" class="textLeft"></td>
-                    </tr>
-                    <tr>
-                        <th>LINE Version</th>
+                      </tr>
+                      <tr>
                         <td id="lineVersion" class="textLeft"></td>
-                    </tr>
-                    <tr>
-                        <th>isInClient</th>
+                      </tr>
+                      <tr>
                         <td id="isInClient" class="textLeft"></td>
-                    </tr>
-                    <tr>
-                        <th>isLoggedIn</th>
+                      </tr>
+                      <tr>
                         <td id="isLoggedIn" class="textLeft"></td>
-                    </tr>
+                      </tr>
+                    </tbody>
                 </table>
             </div>
             <!-- LOGIN LOGOUT BUTTONS -->
