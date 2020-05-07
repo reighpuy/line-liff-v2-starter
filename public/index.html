@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dapi Liff</title>
-        <!--link rel="stylesheet" href="style.css"-->
+        <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     </head>
     <body>
@@ -12,27 +12,27 @@
             <!-- ACTION BUTTONS -->
             <div class="buttonGroup">
                 <div class="buttonRow">
-                    <!--button id="openWindowButton">Open External Window</!--button-->
+                    <!--button id="openWindowButton">Open External Window</button-->
                     <button type="button" class="btn btn-secondary" id="openWindowButton">Buka Web Line</button>
                     <button type="button" class="btn btn-secondary" id="closeWindowButton">Tutup Liff</button>
                 </div>
                 <div class="buttonRow">
-                    <button id="scanQrCodeButton">Open QR Code Reader</button>
-                    <button id="sendMessageButton">Send Message</button>
+                    <button type="button" class="btn btn-secondary" id="scanQrCodeButton">Buka QR Code Reader</button>
+                    <button type="button" class="btn btn-secondary" id="sendMessageButton">Kirim Pesan</button>
                 </div>
                 <div class="buttonRow">
-                    <button id="getAccessToken">Get Access Token</button>
-                    <button id="getProfileButton">Get Profile</button>
+                    <button type="button" class="btn btn-secondary" id="getAccessToken">Dapatkan Access Token</button>
+                    <button type="button" class="btn btn-secondary"id="getProfileButton">Dapatkan Profile</button>
                 </div>
                 <div class="buttonRow">
-                    <button id="shareTargetPicker">Open Share Target Picker</button>
+                    <button type="button" class="btn btn-secondary" id="shareTargetPicker">Buka Share Target Picker</button>
                 </div>
             </div>
             <div id="shareTargetPickerMessage"></div>
             <!-- ACCESS TOKEN DATA -->
             <div id="accessTokenData" class="hidden textLeft">
                 <h2>Access Token</h2>
-                <a href="#" onclick="toggleAccessToken()">Close Access Token</a>
+                <a href="#" onclick="toggleAccessToken()">Tutup Access Token</a>
                 <table>
                     <tr>
                         <th>accessToken</th>
@@ -43,7 +43,7 @@
             <!-- SCAN QR RESULT -->
             <div id="scanQr" class="hidden textLeft">
                 <h2>QR Code reader</h2>
-                <a href="#" onclick="toggleQrCodeReader()">Close QR Code Reader Result</a>
+                <a href="#" onclick="toggleQrCodeReader()">Tutup QR Code Reader Result</a>
                 <table>
                     <tr>
                         <th>scanCode Result</th>
@@ -54,7 +54,7 @@
             <!-- PROFILE INFO -->
             <div id="profileInfo" class="hidden textLeft">
                 <h2>Profile</h2>
-                <a href="#" onclick="toggleProfileData()">Close Profile</a>
+                <a href="#" onclick="toggleProfileData()">Tutup Profile</a>
                 <div id="profilePictureDiv">
                 </div>
                 <table>
