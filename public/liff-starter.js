@@ -176,7 +176,7 @@ function registerButtonHandlers() {
             const img = document.createElement('img');
             img.src = profile.pictureUrl;
             img.alt = 'Ava';
-            profilePictureDiv.appendChild(img);
+            //profilePictureDiv.appendChild(img);
 
             document.getElementById('statusMessageField').textContent = profile.statusMessage;
             toggleProfileData();
