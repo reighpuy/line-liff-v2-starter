@@ -106,7 +106,7 @@ function registerButtonHandlers() {
     // openWindow call
     document.getElementById('openWindowButton').addEventListener('click', function() {
         liff.openWindow({
-            url: 'https://line.me',
+            url: 'https://instagram.com/muh.khadaffy',
             external: true
         });
     });
