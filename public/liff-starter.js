@@ -127,11 +127,11 @@ function registerButtonHandlers() {
         } else {
             liff.sendMessages([{
                 'type': 'text',
-                'text': "You've successfully sent a message! Hooray!"
+                'text': "Aku Bau"
             }]).then(function() {
-                window.alert('Message sent');
+                window.alert('Berhasil Mengirim Pesan');
             }).catch(function(error) {
-                window.alert('Error sending message: ' + error);
+                window.alert('#Gagal Mengirim Pesan : ' + error);
             });
         }
     });
@@ -175,7 +175,7 @@ function registerButtonHandlers() {
             }
             const img = document.createElement('img');
             img.src = profile.pictureUrl;
-            img.alt = 'Profile Picture';
+            img.alt = 'Ava';
             profilePictureDiv.appendChild(img);
 
             document.getElementById('statusMessageField').textContent = profile.statusMessage;
@@ -193,7 +193,7 @@ function registerButtonHandlers() {
             liff.shareTargetPicker([
                 {
                     'type': 'text',
-                    'text': 'Hello, World!'
+                    'text': 'Haiii'
                 }
             ])
                 .then(
