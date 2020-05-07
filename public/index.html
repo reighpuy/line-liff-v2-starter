@@ -1,264 +1,162 @@
-window.onload = function() {
-    const useNodeJS = true;   // if you are not using a node server, set this value to false
-    const defaultLiffId = "";   // change the default LIFF value if you are not using a node server
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dapi Liff Application</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    </head>
+    <body>
+        <div id="liffAppContent">
+            <!-- ACTION BUTTONS -->
+                <button type="button" class="btn btn-outline-info btn-lg" id="getProfileButton">Profil Saya</button>
+                <button type="button" class="btn btn-outline-primary btn-lg" id="openWindowButton">@Muh.khadaffy</button>
+                <br><button type="button" class="btn btn-outline-secondary btn-lg" id="closeWindowButton">Tutup Liff</button>
+                <br><button type="button" class="btn btn-outline-success btn-lg" id="scanQrCodeButton">Buka QR Code Reader</button>
+                <br><button type="button" class="btn btn-outline-danger btn-lg" id="sendMessageButton">Kirim Pesan</button>
+                <br><button type="button" class="btn btn-outline-warning btn-lg" id="getAccessToken">Dapatkan Access Token</button>
+                <br><button type="button" class="btn btn-outline-dark btn-lg" id="shareTargetPicker">Buka Share Target Picker</button>
+                <div id="shareTargetPickerMessage"></div>
+            <hr color=black>
+            <!-- ACCESS TOKEN DATA -->
+            <div id="accessTokenData" class="hidden textLeft">
+                <center><h2>Access Token</h2></center>
+                <center><a href="#" onclick="toggleAccessToken()">Tutup Access Token</a></center>
+                <br><table class="table table-borderless table-dark">
+                    <thead>
+                        <tr>
+                          <center><th scope="col">accessToken</th></center>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                          <td id="accessTokenField"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- SCAN QR RESULT -->
+            <div id="scanQr" class="hidden textLeft">
+                <center><h2>QR Code reader</h2></center>
+                <center><a href="#" onclick="toggleQrCodeReader()">Tutup QR Code Reader Result</a></center>
+                <br><table class="table table-borderless table-dark">
+                    <thead>
+                        <tr>
+                          <center><th scope="col">scanCode Result</th></center>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                          <td id="scanQrField"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- PROFILE INFO -->
+            <div id="profileInfo" class="hidden textLeft">
+                <center><h2>Info Profile</h2></center>
+                <center><a href="#" onclick="toggleProfileData()">Tutup Profile</a></center>
+                <div id="profilePictureDiv"></div>
+                <div class="card" style="width: 18rem;">
+                    <img id="profilePictureDiv" src="profile.pictureUrl" class="card-img-top" alt="Ava">
+                    <div class="card-body">
+                      <h5 class="card-title" id="displayNameField"></h5>
+                      <p class="card-text" id="statusMessageField"></p>
+                      <!--a href="#" class="btn btn-link">Kunjungi</a-->
+                    </div>
+                </div>
+            </div>
+            <script>
+                // get profile call
+                document.getElementById('getProfileButton').addEventListener('click', function() {
+                    liff.getProfile().then(function(profile) {
+                        document.getElementById('userIdProfileField').textContent = profile.userId;
+                        document.getElementById('displayNameField').textContent = profile.displayName;
 
-    // DO NOT CHANGE THIS
-    let myLiffId = "";
+                        const profilePictureDiv = document.getElementById('profilePictureDiv');
+                        if (profilePictureDiv.firstElementChild) {
+                            profilePictureDiv.removeChild(profilePictureDiv.firstElementChild);
+                        }
+                        const img = document.createElement('img');
+                        img.src = profile.pictureUrl;
+                        img.alt = 'Ava';
+                        //profilePictureDiv.appendChild(img);
 
-    // if node is used, fetch the environment variable and pass it to the LIFF method
-    // otherwise, pass defaultLiffId
-    if (useNodeJS) {
-        fetch('/send-id')
-            .then(function(reqResponse) {
-                return reqResponse.json();
-            })
-            .then(function(jsonResponse) {
-                myLiffId = jsonResponse.id;
-                initializeLiffOrDie(myLiffId);
-            })
-            .catch(function(error) {
-                document.getElementById("liffAppContent").classList.add('hidden');
-                document.getElementById("nodeLiffIdErrorMessage").classList.remove('hidden');
-            });
-    } else {
-        myLiffId = defaultLiffId;
-        initializeLiffOrDie(myLiffId);
-    }
-};
-
-/**
-* Check if myLiffId is null. If null do not initiate liff.
-* @param {string} myLiffId The LIFF ID of the selected element
-*/
-function initializeLiffOrDie(myLiffId) {
-    if (!myLiffId) {
-        document.getElementById("liffAppContent").classList.add('hidden');
-        document.getElementById("liffIdErrorMessage").classList.remove('hidden');
-    } else {
-        initializeLiff(myLiffId);
-    }
-}
-
-/**
-* Initialize LIFF
-* @param {string} myLiffId The LIFF ID of the selected element
-*/
-function initializeLiff(myLiffId) {
-    liff
-        .init({
-            liffId: myLiffId
-        })
-        .then(() => {
-            // start to use LIFF's api
-            initializeApp();
-        })
-        .catch((err) => {
-            document.getElementById("liffAppContent").classList.add('hidden');
-            document.getElementById("liffInitErrorMessage").classList.remove('hidden');
-        });
-}
-
-/**
- * Initialize the app by calling functions handling individual app components
- */
-function initializeApp() {
-    displayLiffData();
-    displayIsInClientInfo();
-    registerButtonHandlers();
-
-    // check if the user is logged in/out, and disable inappropriate button
-    if (liff.isLoggedIn()) {
-        document.getElementById('liffLoginButton').disabled = true;
-    } else {
-        document.getElementById('liffLogoutButton').disabled = true;
-    }
-}
-
-/**
-* Display data generated by invoking LIFF methods
-*/
-function displayLiffData() {
-    document.getElementById('browserLanguage').textContent = liff.getLanguage();
-	document.getElementById('sdkVersion').textContent = liff.getVersion();
-	document.getElementById('lineVersion').textContent = liff.getVersion();
-    document.getElementById('isInClient').textContent = liff.isInClient();
-    document.getElementById('isLoggedIn').textContent = liff.isLoggedIn();
-    document.getElementById('deviceOS').textContent = liff.getOS();
-}
-
-/**
-* Toggle the login/logout buttons based on the isInClient status, and display a message accordingly
-*/
-function displayIsInClientInfo() {
-    if (liff.isInClient()) {
-        document.getElementById('liffLoginButton').classList.toggle('hidden');
-        document.getElementById('liffLogoutButton').classList.toggle('hidden');
-        document.getElementById('isInClientMessage').textContent = 'Hey there!';
-    } else {
-        document.getElementById('isInClientMessage').textContent = 'Hey there!.';
-    }
-}
-
-/**
-* Register event handlers for the buttons displayed in the app
-*/
-function registerButtonHandlers() {
-    // openWindow call
-    document.getElementById('openWindowButton').addEventListener('click', function() {
-        liff.openWindow({
-            url: 'https://instagram.com/muh.khadaffy',
-            external: true
-        });
-    });
-
-    // closeWindow call
-    document.getElementById('closeWindowButton').addEventListener('click', function() {
-        if (!liff.isInClient()) {
-            sendAlertIfNotInClient();
-        } else {
-            liff.closeWindow();
-        }
-    });
-
-    // sendMessages call
-    document.getElementById('sendMessageButton').addEventListener('click', function() {
-        if (!liff.isInClient()) {
-            sendAlertIfNotInClient();
-        } else {
-            liff.sendMessages([{
-                'type': 'text',
-                'text': "Aku Bau"
-            }]).then(function() {
-                window.alert('Berhasil Mengirim Pesan');
-            }).catch(function(error) {
-                window.alert('#Gagal Mengirim Pesan : ' + error);
-            });
-        }
-    });
-
-    // scanCode call
-    document.getElementById('scanQrCodeButton').addEventListener('click', function() {
-        if (!liff.isInClient()) {
-            sendAlertIfNotInClient();
-        } else {
-            liff.scanCode().then(result => {
-                // e.g. result = { value: "Hello LIFF app!" }
-                const stringifiedResult = JSON.stringify(result);
-                document.getElementById('scanQrField').textContent = stringifiedResult;
-                toggleQrCodeReader();
-            }).catch(err => {
-                document.getElementById('scanQrField').textContent = "scanCode failed!";
-            });
-        }
-    });
-
-    // get access token
-    document.getElementById('getAccessToken').addEventListener('click', function() {
-        if (!liff.isLoggedIn() && !liff.isInClient()) {
-            alert('To get an access token, you need to be logged in. Please tap the "login" button below and try again.');
-        } else {
-            const accessToken = liff.getAccessToken();
-            document.getElementById('accessTokenField').textContent = accessToken;
-            toggleAccessToken();
-        }
-    });
-
-    // get profile call
-    document.getElementById('getProfileButton').addEventListener('click', function() {
-        liff.getProfile().then(function(profile) {
-            document.getElementById('userIdProfileField').textContent = profile.userId;
-            document.getElementById('displayNameField').textContent = profile.displayName;
-
-            const profilePictureDiv = document.getElementById('profilePictureDiv');
-            if (profilePictureDiv.firstElementChild) {
-                profilePictureDiv.removeChild(profilePictureDiv.firstElementChild);
-            }
-            const img = document.createElement('img');
-            img.src = profile.pictureUrl;
-            img.alt = 'Ava';
-            //profilePictureDiv.appendChild(img);
-
-            document.getElementById('statusMessageField').textContent = profile.statusMessage;
-            toggleProfileData();
-        }).catch(function(error) {
-            window.alert('Error getting profile: ' + error);
-        });
-    });
-    
-    document.getElementById('shareTargetPicker').addEventListener('click', function() {
-        if (!liff.isInClient()) {
-            sendAlertIfNotInClient();
-        } else {
-            if (liff.isApiAvailable('shareTargetPicker')) {
-            liff.shareTargetPicker([
-                {
-                    'type': 'text',
-                    'text': 'Haiii'
-                }
-            ])
-                .then(
-                document.getElementById('shareTargetPickerMessage').textContent = "Share target picker was launched."
-                ).catch(function(res) {
-                document.getElementById('shareTargetPickerMessage').textContent = "Failed to launch share target picker."
-                })
-            }
-        }
-        })
-
-    // login call, only when external browser is used
-    document.getElementById('liffLoginButton').addEventListener('click', function() {
-        if (!liff.isLoggedIn()) {
-            // set `redirectUri` to redirect the user to a URL other than the front page of your LIFF app.
-            liff.login();
-        }
-    });
-
-    // logout call only when external browse
-    document.getElementById('liffLogoutButton').addEventListener('click', function() {
-        if (liff.isLoggedIn()) {
-            liff.logout();
-            window.location.reload();
-        }
-    });
-}
-
-/**
-* Alert the user if LIFF is opened in an external browser and unavailable buttons are tapped
-*/
-function sendAlertIfNotInClient() {
-    alert('This button is unavailable as LIFF is currently being opened in an external browser.');
-}
-
-/**
-* Toggle access token data field
-*/
-function toggleAccessToken() {
-    toggleElement('accessTokenData');
-}
-
-/**
-* Toggle profile info field
-*/
-function toggleProfileData() {
-    toggleElement('profileInfo');
-}
-
-/**
-* Toggle scanCode result field
-*/
-function toggleQrCodeReader() {
-    toggleElement('scanQr');
-}
-
-/**
-* Toggle specified element
-* @param {string} elementId The ID of the selected element
-*/
-function toggleElement(elementId) {
-    const elem = document.getElementById(elementId);
-    if (elem.offsetWidth > 0 && elem.offsetHeight > 0) {
-        elem.style.display = 'none';
-    } else {
-        elem.style.display = 'block';
-    }
-}
+                        document.getElementById('statusMessageField').textContent = profile.statusMessage;
+                        toggleProfileData();
+                    }).catch(function(error) {
+                        window.alert('Error getting profile: ' + error);
+                    });
+                });
+            </script>
+            <!-- LIFF DATA -->
+            <br><div id="liffData">
+                <center><h2 id="liffDataHeader">Data Liff</h2></center>
+                <br><table class="table table-borderless table-dark">
+                    <thead>
+                      <tr>
+                        <th scope="col">OS</th>
+                        <th scope="col">Language</th>
+                        <th scope="col">LIFF SDK Version</th>
+                        <th scope="col">LINE Version</th>
+                        <th scope="col">isInClient</th>
+                        <th scope="col">isLoggedIn</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td id="deviceOS" class="textLeft"></td>
+                        <td id="browserLanguage" class="textLeft"></td>
+                        <td id="sdkVersion" class="textLeft"></td>
+                        <td id="lineVersion" class="textLeft"></td>
+                        <td id="isInClient" class="textLeft"></td>
+                        <td id="isLoggedIn" class="textLeft"></td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- LOGIN LOGOUT BUTTONS -->
+            <div class="buttonGroup">
+                <button id="liffLoginButton">Log in</button>
+                <button id="liffLogoutButton">Log out</button>
+            </div>
+            <div id="statusMessage">
+                <div id="isInClientMessage"></div>
+                <div id="apiReferenceMessage">
+                    <p>- Reighpuy -</p>
+                </div>
+            </div>
+        </div>
+        <!-- LIFF ID ERROR -->
+        <div id="liffIdErrorMessage" class="hidden">
+            <p>You have not assigned any value for LIFF ID.</p>
+            <p>If you are running the app using Node.js, please set the LIFF ID as an environment variable in your Heroku account follwing the below steps: </p>
+            <code id="code-block">
+                <ol>
+                    <li>Go to `Dashboard` in your Heroku account.</li>
+                    <li>Click on the app you just created.</li>
+                    <li>Click on `Settings` and toggle `Reveal Config Vars`.</li>
+                    <li>Set `MY_LIFF_ID` as the key and the LIFF ID as the value.</li>
+                    <li>Your app should be up and running. Enter the URL of your app in a web browser.</li>
+                </ol>
+            </code>
+            <p>If you are using any other platform, please add your LIFF ID in the <code>index.html</code> file.</p>
+            <p>For more information about how to add your LIFF ID, see <a href="https://developers.line.biz/en/reference/liff/#initialize-liff-app">Initializing the LIFF app</a>.</p>
+        </div>
+        <!-- LIFF INIT ERROR -->
+        <div id="liffInitErrorMessage" class="hidden">
+            <p>Something went wrong with LIFF initialization.</p>
+            <p>LIFF initialization can fail if a user clicks "Cancel" on the "Grant permission" screen, or if an error occurs in the process of <code>liff.init()</code>.</p>
+        </div>
+        <!-- NODE.JS LIFF ID ERROR -->
+        <div id="nodeLiffIdErrorMessage" class="hidden">
+            <p>Unable to receive the LIFF ID as an environment variable.</p>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+        <script src="liff-starter.js"></script>
+    </body>
+</html>
