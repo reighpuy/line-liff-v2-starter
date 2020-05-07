@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Dapi Liff</title>
+        <title>Dapi Liff Application</title>
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     </head>
@@ -11,24 +11,16 @@
         <div id="liffAppContent">
             <!-- ACTION BUTTONS -->
             <div class="buttonGroup">
-                <div class="buttonRow">
-                    <!--button id="openWindowButton">Open External Window</button-->
-                    <button type="button" class="btn btn-secondary" id="openWindowButton">Buka Web Line</button>
-                    <button type="button" class="btn btn-secondary" id="closeWindowButton">Tutup Liff</button>
-                </div>
-                <div class="buttonRow">
-                    <button type="button" class="btn btn-secondary" id="scanQrCodeButton">Buka QR Code Reader</button>
-                    <button type="button" class="btn btn-secondary" id="sendMessageButton">Kirim Pesan</button>
-                </div>
-                <div class="buttonRow">
-                    <button type="button" class="btn btn-secondary" id="getAccessToken">Dapatkan Access Token</button>
-                    <button type="button" class="btn btn-secondary"id="getProfileButton">Dapatkan Profile</button>
-                </div>
-                <div class="buttonRow">
-                    <button type="button" class="btn btn-secondary" id="shareTargetPicker">Buka Share Target Picker</button>
-                </div>
+                    <button type="button" class="btn btn-outline-info"id="getProfileButton">Profil Saya</button>
+                    <button type="button" class="btn btn-outline-primary" id="openWindowButton">@Muh.khadaffy</button>
+                    <br><button type="button" class="btn btn-outline-secondary" id="closeWindowButton">Tutup Liff</button>
+                    <br><button type="button" class="btn btn-outline-success" id="scanQrCodeButton">Buka QR Code Reader</button>
+                    <br><button type="button" class="btn btn-outline-danger" id="sendMessageButton">Kirim Pesan</button>
+                    <br><button type="button" class="btn btn-outline-warning" id="getAccessToken">Dapatkan Access Token</button>
+                    <br><button type="button" class="btn btn-outline-light" id="shareTargetPicker">Buka Share Target Picker</button>
+                    <div id="shareTargetPickerMessage"></div>
             </div>
-            <div id="shareTargetPickerMessage"></div>
+            <hr color=red>
             <!-- ACCESS TOKEN DATA -->
             <div id="accessTokenData" class="hidden textLeft">
                 <h2>Access Token</h2>
