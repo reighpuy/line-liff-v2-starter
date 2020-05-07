@@ -59,37 +59,12 @@
                 <center><a href="#" onclick="toggleProfileData()">Tutup Profile</a></center>
                 <div id="profilePictureDiv"></div>
                 <div class="card" style="width: 18rem;">
-                    <img id="profilePictureDiv" src="profile.pictureUrl" class="card-img-top" alt="Ava">
                     <div class="card-body">
                       <h5 class="card-title" id="displayNameField"></h5>
                       <p class="card-text" id="statusMessageField"></p>
-                      <!--a href="#" class="btn btn-link">Kunjungi</a-->
                     </div>
-                </div>
+                  </div>
             </div>
-            <script>
-                // get profile call
-                document.getElementById('getProfileButton').addEventListener('click', function() {
-                    liff.getProfile().then(function(profile) {
-                        document.getElementById('userIdProfileField').textContent = profile.userId;
-                        document.getElementById('displayNameField').textContent = profile.displayName;
-
-                        const profilePictureDiv = document.getElementById('profilePictureDiv');
-                        if (profilePictureDiv.firstElementChild) {
-                            profilePictureDiv.removeChild(profilePictureDiv.firstElementChild);
-                        }
-                        const img = document.createElement('img');
-                        img.src = profile.pictureUrl;
-                        img.alt = 'Ava';
-                        //profilePictureDiv.appendChild(img);
-
-                        document.getElementById('statusMessageField').textContent = profile.statusMessage;
-                        toggleProfileData();
-                    }).catch(function(error) {
-                        window.alert('Error getting profile: ' + error);
-                    });
-                });
-            </script>
             <!-- LIFF DATA -->
             <br><div id="liffData">
                 <center><h2 id="liffDataHeader">Data Liff</h2></center>
