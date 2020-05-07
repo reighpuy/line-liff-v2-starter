@@ -58,12 +58,22 @@
                 <center><h2>Info Profile</h2></center>
                 <center><a href="#" onclick="toggleProfileData()">Tutup Profile</a></center>
                 <div id="profilePictureDiv"></div>
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                      <h5 class="card-title" id="displayNameField"></h5>
-                      <p class="card-text" id="statusMessageField"></p>
-                    </div>
-                  </div>
+                <br><table class="table table-borderless table-dark">
+                    <thead>
+                        <tr>
+                          <th scope="col">Nama</th>
+                          <th scope="col">Status</th>
+                          <th scope="col">ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                          <td id="displayNameField"></td>
+                          <td id="statusMessageField"></td>
+                          <td id="userIdProfileField"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <!-- LIFF DATA -->
             <br><div id="liffData">
